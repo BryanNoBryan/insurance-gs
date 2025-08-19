@@ -1,6 +1,6 @@
 const name_col = 1
 const date_col = 2
-const insurance_col =3 
+const insurance_col = 3 
 const deductible_col = 4
 const ins_max_remaining_col = 5
 const codes_col = 6
