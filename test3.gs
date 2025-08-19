@@ -272,25 +272,27 @@ function fillInGoogleDoc(sheet, row, col, first_name, last_name, date, insurance
   	maxValue = -1;
   	maximumValueCodeIndex = -1;
   	for (let j = 0; j < codes.length; j++) {
-      console.log('loop 4');
   		if (indicesUsed.includes(j)) break;
+      console.log('loop 4');
   		if (costs[j] > maxValue) {
   			maxValue = costs[j];
   			maximumValueCodeIndex = j;
   		}
   	}
   
-  	if (costs[i] > deductibleCounter) {
-  		let deductedCost = costs[i] - deductibleCounter;
-  		ins_money[j] =  deductedCost * (coverages[i] / 100);
-  		pt_money[j] = deductedCost * (1 - coverages[j] / 100) + deductibleCounter;
+    let k = maximumValueCodeIndex;
+    let cost = costs[k];
+  	if (cost > deductibleCounter) {
+  		let deductedCost = cost - deductibleCounter;
+  		ins_money[k] =  deductedCost * (coverages[k] / 100);
+  		pt_money[k] = deductedCost * (1 - coverages[k] / 100) + deductibleCounter;
       deductibleCounter = 0;
   	}
   	else {
   		let deductibleEaten = cost;
   		deductibleCounter -= deductibleEaten;
-  		ins_money[i] = 0;
-  		pt_money[i] = cost;
+  		ins_money[k] = 0;
+  		pt_money[k] = cost;
   	}
     console.log(`maxValue ${maxValue} maximumValueCodeIndex ${maximumValueCodeIndex}`);
 
@@ -322,10 +324,7 @@ function fillInGoogleDoc(sheet, row, col, first_name, last_name, date, insurance
   let currentIndex = 6;
 
   for (let i = 0; i < codes.length; i++) {
-    if (codes[i] == 'D9310' || codes[i] == 'D0160') {
-      costs[i] = consult_cost;
-      console.log('consult_cost ' + consult_cost);
-    }
+    
     const newTable = tableTemplate.copy();
     body.insertTable(currentIndex++, newTable);
     const row = newTable.getRow(0);
